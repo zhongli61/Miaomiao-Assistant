@@ -1,4 +1,6 @@
 streamlit
 openai
-chromadb
+qdrant-client
+langchain-community
+pymupdf
 numpy
