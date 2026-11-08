@@ -419,12 +419,15 @@ if prompt := st.chat_input("请输入你想问的问题..."):
                 context = "\n".join([hit.payload["text"] for hit in search_result])
 
                 prompt_text = f"""你是一个专业的学术助手。请根据以下资料片段回答用户的问题。
-                如果遇到类似“A ⊠ B”的乱码符号，请结合上下文（比如集合的数字）推测它是数学交集（∩）或并集（∪）。
+                
+                ⚠️【数学公式排版要求】：如果回答中包含数学公式，**绝对不要使用 \( \) 或 \[ \] 作为定界符！**
+                请统一使用美元符号：行内公式用 `$公式$`，独立公式用 `$$公式$$`。
+                
                 如果资料没有提及，请如实回答。
-资料：
-{context}
+                资料：
+                {context}
+                用户问题：{prompt}"""
 
-用户问题：{prompt}"""
 
                 response = safe_openai_call(lambda c: c.chat.completions.create(model=CHAT_MODEL, messages=[
                     {"role": "user", "content": prompt_text}],stream=True)) #开启流式会更快显示
